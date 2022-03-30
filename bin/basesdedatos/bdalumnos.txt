@@ -1,0 +1,42 @@
+CREATE DATABASE bdalumnos DEFAULT CHARACTER SET utf8 DEFAULT COLLATE utf8_spanish_ci;
+
+create table bdalumnos.alumnos(
+dni varchar(9) primary key,
+nombre varchar(30) not null,
+apellidos varchar(50) not null,
+grupo varchar(4) not null
+);
+insert into bdalumnos.alumnos values ('11111111A','N1','A1','1AS3');
+insert into bdalumnos.alumnos values ('22222222B','N2','A2','1DW3');
+insert into bdalumnos.alumnos values ('33333333C','N3','A3','2AS3');
+insert into bdalumnos.alumnos values ('44444444D','N4','A4','1DW3');
+insert into bdalumnos.alumnos values ('55555555E','N5','A5','1AS3');
+insert into bdalumnos.alumnos values ('66666666F','N6','A6','1AS3');
+insert into bdalumnos.alumnos values ('77777777G','N7','A7','2DW3');
+insert into bdalumnos.alumnos values ('88888888H','N8','A8','1AS3');
+create table bdalumnos.asignaturas(
+codasignatura varchar(4) primary key,
+nombreasignatura varchar(60) not null,
+descripcion varchar(200)
+);
+insert into bdalumnos.asignaturas values ('BD','Bases de Datos','');
+insert into bdalumnos.asignaturas values ('ED','Entornos de Desarrollo','');
+insert into bdalumnos.asignaturas values ('FOL','Formación y Orientación Laboral','');
+insert into bdalumnos.asignaturas values ('ISO','Implantación de Sistemas Operativos','');
+insert into bdalumnos.asignaturas values ('PROG','Programación','');
+create table bdalumnos.calificaciones(
+dni varchar(9) not null,
+codasignatura varchar(4) not null,
+nota int(2) unsigned not null,
+foreign key (dni) references alumnos(dni) on delete cascade,
+foreign key (codasignatura) references asignaturas(codasignatura) on delete cascade,
+unique (dni,codasignatura)
+);
+insert into bdalumnos.calificaciones values ('11111111A','BD',5);
+insert into bdalumnos.calificaciones values ('11111111A','ED',4);
+insert into bdalumnos.calificaciones values ('11111111A','FOL',7);
+insert into bdalumnos.calificaciones values ('11111111A','PROG',8);
+insert into bdalumnos.calificaciones values ('22222222B','BD',5);
+insert into bdalumnos.calificaciones values ('22222222B','ED',4);
+insert into bdalumnos.calificaciones values ('33333333C','FOL',7);
+insert into bdalumnos.calificaciones values ('77777777G','PROG',8);
