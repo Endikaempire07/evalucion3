@@ -103,7 +103,6 @@ public class BDAlumnosCompleto extends JFrame implements ActionListener, ListSel
 	private String nota;
 	private String asignatura;
 	private String oldnota;
-	private String oldasignatura;
 	// combobox
 	private JComboBox<String> cmbAsig;
 	int filaseleccionada;
@@ -676,8 +675,6 @@ public class BDAlumnosCompleto extends JFrame implements ActionListener, ListSel
 				fila.add("\n\n\n\n\n\n\n");
 				datosTabla.add(fila);
 			}
-			oldasignatura = rs.getString("codasignatura");
-			oldnota = rs.getString("nota");
 			// A partir de aquí podemos definir un filtro basado en metodoOrdenacion
 			// cambio el filtro de la tabla de calificaciones
 			// podemos poner un filtro por grupo para sacar solo los alumnos de 1DW3
@@ -746,8 +743,7 @@ public class BDAlumnosCompleto extends JFrame implements ActionListener, ListSel
 			String consulta;
 			// creamos una variable y le hago dentro la operacion de la base de datos
 			if (this.nota != oldnota) {
-				consulta = "UPDATE bdalumnos.calificaciones set nota='" + this.nota + "'WHERE dni='" + alumnoac.getDni()
-						+ "';";
+				consulta = "UPDATE bdalumnos.calificaciones set nota='" + this.nota + "'WHERE dni='" + originaldni+ "';";
 
 				st.executeUpdate(consulta);
 
@@ -757,6 +753,8 @@ public class BDAlumnosCompleto extends JFrame implements ActionListener, ListSel
 			st.close();
 			// cierro la conexion
 			conexion.close();
+			
+			this.dtmTabla.setValueAt(nota, filaseleccionada, 2);
 		} catch (SQLException e) {
 			// si se produce una excepción SQL
 			int errorcode = e.getErrorCode();
@@ -826,6 +824,13 @@ public class BDAlumnosCompleto extends JFrame implements ActionListener, ListSel
 							grupo = txtGrupo.getText();
 
 							insertaralumno();
+							alumno = new Alumno();
+							alumno.setDni(txtDni.getText());
+							alumno.setNombre(txtNombre.getText());
+							alumno.setApellidos(txtApellidos.getText());
+							alumno.setGrupo(txtGrupo.getText());
+							alumno1.add(alumno);
+							
 						}
 					}
 				}
@@ -840,6 +845,7 @@ public class BDAlumnosCompleto extends JFrame implements ActionListener, ListSel
 						if (verificarCamposborrar(txtGrupo)) {
 							grupo = txtGrupo.getText();
 							borraralumnos();
+							alumno1.remove(alumno);
 
 							JOptionPane.showMessageDialog(this, (String) "Se ha borrado correctamente",
 									"Borrado correctamente", JOptionPane.INFORMATION_MESSAGE, null);

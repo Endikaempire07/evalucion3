@@ -527,6 +527,12 @@ public class BDAlumnosCampos extends JFrame implements ActionListener {
 							grupo = txtGrupo.getText();
 
 							insertaralumno();
+							alumno = new Alumno();
+							alumno.setDni(txtDni.getText());
+							alumno.setNombre(txtNombre.getText());
+							alumno.setApellidos(txtApellidos.getText());
+							alumno.setGrupo(txtGrupo.getText());
+							alumno1.add(alumno);
 						}
 					}
 				}
@@ -541,6 +547,7 @@ public class BDAlumnosCampos extends JFrame implements ActionListener {
 						if (verificarCamposborrar(txtGrupo)) {
 							grupo = txtGrupo.getText();
 							borraralumnos();
+							alumno1.remove(alumno);
 
 							JOptionPane.showMessageDialog(this, (String) "Se ha borrado correctamente",
 									"Borrado correctamente", JOptionPane.INFORMATION_MESSAGE, null);
